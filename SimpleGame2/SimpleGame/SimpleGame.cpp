@@ -12,7 +12,7 @@ but WITHOUT ANY WARRANTY.
 #include <iostream>
 #include "Dependencies\glew.h"
 #include "Dependencies\freeglut.h"
-
+#include "Object.h"
 #include "Renderer.h"
 
 Renderer *g_Renderer = NULL;
@@ -24,8 +24,8 @@ void RenderScene(void)
 
 	// Renderer Test
 	g_Renderer->DrawSolidRect(0, 0, 0, 4, 1, 0, 1, 1);
-	g_Renderer->DrawSolidRect(100, 100, 0,4, 1, 0, 1, 1);
-	g_Renderer->DrawSolidRect(-100, 100, 0, 4, 1, 0, 1, 1);
+	//g_Renderer->DrawSolidRect(100, 100, 0,4, 1, 0, 1, 1);
+	//g_Renderer->DrawSolidRect(-100, 100, 0, 4, 1, 0, 1, 1);
 	glutSwapBuffers();
 }
 
@@ -36,6 +36,10 @@ void Idle(void)
 
 void MouseInput(int button, int state, int x, int y)
 {
+
+
+
+
 	RenderScene();
 }
 

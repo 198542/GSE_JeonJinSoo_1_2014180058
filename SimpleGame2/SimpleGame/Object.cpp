@@ -1,8 +1,17 @@
 #include"Object.h"
+#include"stdafx.h"
+class Object;
+struct Position;
 
-Object::Object(const Position position, const Color color, const float size)
+
+void Object::mydata(const Position position, const float size)
 {
 	my_pos = position;
-	my_col = color;
 	my_size = size;
+}
+
+void Object::update()
+{
+	
+	my_pos=my_pos+my_velocitypos*Speed;
 }
