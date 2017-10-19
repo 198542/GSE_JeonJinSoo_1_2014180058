@@ -2,11 +2,15 @@
 #include"stdafx.h"
 #include<iostream>
 #include<vector>
+#include<random>
+#include<memory>
 
 using namespace std;
 
 static float Speed = 5000.0f;
 static float Time = 1.0f / 1000.0f;
+const float Width = 500.0;
+const float Hight = 500.0;
 
 struct Position
 {
@@ -23,8 +27,8 @@ struct Position
 
 	Position operator*(Position n) //하나만 증가시켜야 함으로 
 	{
-		 Position postion(x*n.x,y*n.y,z*n.z);
-		 return postion;
+		Position postion(x*n.x, y*n.y, z*n.z);
+		return postion;
 	}
 
 	Position operator+(Position position)
@@ -43,28 +47,30 @@ struct Color
 };
 class Object
 {
+private:
+	Position my_pos;
+	Position my_velocitypos;
+	Color my_col;
+	float my_size;
 
 public:
 	Object() {};
-	Object(const Position position,const float size,const Color color);
+	Object(const Position position, const float size, const Color color);
 	void update();
+	void Move();
 
 
 	//Get
 	const Position& GetPosition() { return my_pos; }
 	const Color& GetColor() { return my_col; }
 	const float& GetSize() { return my_size; } //&를 안붙이면 복사본이 전달됨. 붙이면 주소값이 전달된다.
-	
 
-	//Set
+
+											   //Set
 	void SetPosition(const Position position) { my_pos = position; }
 	void SetColor(const Color color) { my_col = color; }
 	void SetSize(const float size) { my_size = size; }
 
+	shared_ptr<Object> newobject(const Position position, const float size, const Color colr);
 
-private:
-	Position my_pos;
-	Position my_velocitypos;
-	Color my_col;
-	float my_size;
 };

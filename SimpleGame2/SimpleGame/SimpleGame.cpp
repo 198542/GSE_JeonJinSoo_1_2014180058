@@ -13,7 +13,7 @@ but WITHOUT ANY WARRANTY.
 #include "Dependencies\glew.h"
 #include "Dependencies\freeglut.h"
 #include "Object.h" //자료형만 제공
-
+#include "SceneMgr.h"
 #include "Renderer.h"
 
 
@@ -23,21 +23,25 @@ vector<Object*> v;
 
 Renderer *g_Renderer = NULL;
 
+SceneMgr g_SceneMgr;
+
 void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
 	// Renderer Test
-	for (auto d : v) { //포인터 이기 때문에 . 이아니라 -> 가리킴
-		g_Renderer->DrawSolidRect(d->GetPosition().x, d->GetPosition().y, d->GetPosition().z,
-			d->GetSize(), d->GetColor().r, d->GetColor().g, d->GetColor().b, d->GetColor().a);
-		d->update();
+	for (int i = 0; i < 50; ++i) { //포인터 이기 때문에 . 이아니라 -> 가리킴
+		g_Renderer->DrawSolidRect(g_SceneMgr.Get_object()[i].GetPosition().x, g_SceneMgr.Get_object()[i].GetPosition().y,
+			g_SceneMgr.Get_object()[i].GetPosition().z,
+			g_SceneMgr.Get_object()[i].GetSize(), g_SceneMgr.Get_object()[i].GetColor().r,
+			g_SceneMgr.Get_object()[i].GetColor().g, g_SceneMgr.Get_object()[i].GetColor().b, g_SceneMgr.Get_object()[i].GetColor().a);
 	}
+	g_SceneMgr.Update();
 	//g_Renderer->DrawSolidRect(obj.GetPosition().x, obj.GetPosition().y, obj.GetPosition().z, obj.GetSize(), obj.GetColor().r, obj.GetColor().g, obj.GetColor().b, obj.GetColor().a);
 	//obj에 있는 정보를 Get(가져옴) x값,y값,z값,size,color
 
-	
+
 	//g_Renderer->DrawSolidRect(100, 100, 0,4, 1, 0, 1, 1);
 
 	glutSwapBuffers();
@@ -46,23 +50,23 @@ void RenderScene(void)
 void Idle(void)
 {
 	RenderScene();
-	for (auto d : v) d->update();
+	g_SceneMgr.Update();
 }
 
 void MouseInput(int button, int state, int x, int y)
 {
 
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-		float w = 500;
-		float h = 500;
-		Position pos(x, y, 0.0f);
-		//pos.x = (x - w / 2.0f) * (1.0f / (w / 2.0f));
-		//pos.y = -(y - h / 2.0f) * (1.0f / (h / 2.0f));
+		float w = 500.0;
+		float h = 500.0;
+		Position pos((float)x - 250.0, 250.0 - (float)y, 0.0f);
+		//마우스 찍을때 마다 생김
 
-		Object* obj = new Object(Position(pos.x, pos.y, pos.z), 4, Color(1, 0, 1, 1));
+
+		Object* obj = new Object(Position(pos.x, pos.y, pos.z), 4, Color(1, 1, 1, 1));
 		//포괄적인게 하나 필요함. 중요함
 		v.emplace_back(obj);
-}
+	}
 	RenderScene();
 }
 
@@ -78,10 +82,10 @@ void SpecialKeyInput(int key, int x, int y)
 
 int main(int argc, char **argv)
 {
-	Object* obj = new Object(Position(0.0, 0.0f, 0.0f), 4, Color(1, 0, 1, 1)); 
+	Object* obj = new Object(Position(0.0, 0.0f, 0.0f), 4, Color(1, 0, 1, 1));
 	//굳이 전역변수로 할필요가 없는것은 전역변수에 선언한 벡터에다가 넣을것이기 때문에 main문에다 선언
 
-																 
+
 	v.emplace_back(obj);
 	//복사본 없는 push back
 
@@ -92,8 +96,10 @@ int main(int argc, char **argv)
 	glutInitWindowPosition(0, 0); //창이 틀어지는 위치 조정
 	glutInitWindowSize(500, 500); //창 사이즈
 	glutCreateWindow("Game Software Engineering KPU");
-	
+
 	glewInit();
+	g_SceneMgr.Init();
+
 	if (glewIsSupported("GL_VERSION_3_0"))
 	{
 		std::cout << " GLEW Version is 3.0\n ";
@@ -120,6 +126,6 @@ int main(int argc, char **argv)
 
 	delete g_Renderer;
 
-    return 0;
+	return 0;
 }
 
