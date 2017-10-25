@@ -1,19 +1,14 @@
 #pragma once
-#include"stdafx.h"
-#include"Object.h"
+#include "newObject.h"
 const int Max = 50;
-class SceneMgr
+class Scene
 {
-private:
-	int count = 0;
-	Object m_object[Max];
-
 public:
-
-	Object* Get_object() { return m_object; }
-
-	void Init();
-	void Update();
-
-
+	Scene();
+	void Collion();
+	void addObj(float x, float y, float z, float s);
+	void update(Renderer *renderer);
+private:
+	Object *my_opject[Max];
+	int count;
 };

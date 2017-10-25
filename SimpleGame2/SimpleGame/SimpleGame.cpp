@@ -12,60 +12,39 @@ but WITHOUT ANY WARRANTY.
 #include <iostream>
 #include "Dependencies\glew.h"
 #include "Dependencies\freeglut.h"
-#include "Object.h" //자료형만 제공
+#include "newObject.h"
 #include "SceneMgr.h"
 #include "Renderer.h"
 
-
-vector<Object*> v;
-//벡터값에다가 마우스 클릭한 정보 저장하기위한 벡터 선언
-//포인터를 준것은 call by value 개념과 call by referenc
-
 Renderer *g_Renderer = NULL;
-
-SceneMgr g_SceneMgr;
-
+Scene *g_Scene = NULL;
+bool mousecheck = false;
 void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
-
 	// Renderer Test
-	for (int i = 0; i < 50; ++i) { //포인터 이기 때문에 . 이아니라 -> 가리킴
-		g_Renderer->DrawSolidRect(g_SceneMgr.Get_object()[i].GetPosition().x, g_SceneMgr.Get_object()[i].GetPosition().y,
-			g_SceneMgr.Get_object()[i].GetPosition().z,
-			g_SceneMgr.Get_object()[i].GetSize(), g_SceneMgr.Get_object()[i].GetColor().r,
-			g_SceneMgr.Get_object()[i].GetColor().g, g_SceneMgr.Get_object()[i].GetColor().b, g_SceneMgr.Get_object()[i].GetColor().a);
-	}
-	g_SceneMgr.Update();
-	//g_Renderer->DrawSolidRect(obj.GetPosition().x, obj.GetPosition().y, obj.GetPosition().z, obj.GetSize(), obj.GetColor().r, obj.GetColor().g, obj.GetColor().b, obj.GetColor().a);
-	//obj에 있는 정보를 Get(가져옴) x값,y값,z값,size,color
-
-
-	//g_Renderer->DrawSolidRect(100, 100, 0,4, 1, 0, 1, 1);
-
+	//g_Renderer->DrawSolidRect(0, 0, 0, 4, 1, 0, 1, 1);
+	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
+	g_Scene->update(g_Renderer);
 	glutSwapBuffers();
 }
 
 void Idle(void)
 {
 	RenderScene();
-	g_SceneMgr.Update();
 }
 
 void MouseInput(int button, int state, int x, int y)
 {
 
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-		float w = 500.0;
-		float h = 500.0;
-		Position pos((float)x - 250.0, 250.0 - (float)y, 0.0f);
-		//마우스 찍을때 마다 생김
-
-
-		Object* obj = new Object(Position(pos.x, pos.y, pos.z), 4, Color(1, 1, 1, 1));
-		//포괄적인게 하나 필요함. 중요함
-		v.emplace_back(obj);
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+		mousecheck = true;
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
+	{
+		if (mousecheck)
+		{
+			g_Scene->addObj(x - 250, 250 - y, 0, 20);
+		}
 	}
 	RenderScene();
 }
@@ -82,13 +61,6 @@ void SpecialKeyInput(int key, int x, int y)
 
 int main(int argc, char **argv)
 {
-	Object* obj = new Object(Position(0.0, 0.0f, 0.0f), 4, Color(1, 0, 1, 1));
-	//굳이 전역변수로 할필요가 없는것은 전역변수에 선언한 벡터에다가 넣을것이기 때문에 main문에다 선언
-
-
-	v.emplace_back(obj);
-	//복사본 없는 push back
-
 
 	// Initialize GL things
 	glutInit(&argc, argv);
@@ -98,7 +70,6 @@ int main(int argc, char **argv)
 	glutCreateWindow("Game Software Engineering KPU");
 
 	glewInit();
-	g_SceneMgr.Init();
 
 	if (glewIsSupported("GL_VERSION_3_0"))
 	{
@@ -115,6 +86,7 @@ int main(int argc, char **argv)
 	{
 		std::cout << "Renderer could not be initialized.. \n";
 	}
+	g_Scene = new Scene();
 
 	glutDisplayFunc(RenderScene);
 	glutIdleFunc(Idle);
@@ -125,7 +97,7 @@ int main(int argc, char **argv)
 	glutMainLoop();
 
 	delete g_Renderer;
-
+	delete g_Scene;
 	return 0;
 }
 

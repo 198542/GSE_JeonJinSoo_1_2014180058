@@ -1,25 +1,46 @@
 #include"stdafx.h"
-#include"Object.h"
 #include"SceneMgr.h"
 #include<random>
 
-void SceneMgr::Init()
+
+Scene::Scene()
 {
-	for (int i = 0; i < Max; ++i) {
+	count = 0;
+	//private count
+}
 
-		Position pos;
-		pos.x = rand() % (500 / 2);
-		pos.y = rand() % (500 / 2);
-		if (rand() % 2) pos.x = -pos.x;
-		if (rand() % 2) pos.y = -pos.y;
-
-		m_object[i].SetPosition(pos);
-		m_object[i].SetColor(Color(1.0f, 1.0f, 1.0f, 1.0f));
-		m_object[i].SetSize(4);
+void Scene::addObj(float x, float y, float z, float s)
+{
+	if (count < Max)
+	{
+		Object* addobject = new Object(true, x, y, z, s, 1, 1, 1, 1, rand() % 25-10, rand() % 25-10, 0);
+		my_opject[count] = addobject;
+		count += 1;
 	}
 }
-void SceneMgr::Update()
+void Scene::Collion()
 {
-	for (int i = 0; i < Max; ++i) m_object[i].update();
-
+	for (int i = 0; i < count; ++i)
+	{
+		for (int j = 0; j < count; ++j)
+		{
+			if (i == j)
+				continue;
+			else if (my_opject[i]->collision(my_opject[j]->my_pos, my_opject[j]->size))
+			{
+				my_opject[i]->SetColor(0, 1, 0, 1);
+				break;
+			}
+			else
+				my_opject[i]->SetColor(1, 1, 1, 1);
+		}
+	}
+}
+void Scene::update(Renderer *renderer)
+{
+	for (int i = 0; i < count; ++i)
+		if (my_opject[i])
+			my_opject[i]->Render(*renderer);
+	
+	Collion();
 }
