@@ -13,10 +13,22 @@ void Scene::addObj(float x, float y, float z, float s)
 {
 	if (count < Max)
 	{
-		Object* addobject = new Object(true, x, y, z, s, 1, 1, 1, 1, rand() % 25-10, rand() % 25-10, 0);
+		Object* addobject = new Object(true, x, y, z, s, 1, 1, 1, 1, rand() % 4, rand() % 4, 0);
+		//뒤에 3개는 vector 값 이것을 시간으로?
+
 		my_opject[count] = addobject;
+
 		count += 1;
+		my_lifetest = 10;
+		my_lifetest -= 5;
+		if (my_lifetest = 0)
+		{
+			delete addobject;
+		}
+		else
+			return;
 	}
+	cout << count << endl;
 }
 void Scene::Collion()
 {
@@ -36,11 +48,13 @@ void Scene::Collion()
 		}
 	}
 }
-void Scene::update(Renderer *renderer)
+void Scene::update(Renderer *renderer, float elapsedTime)
 {
+	//여기에서 시간값 빼고 넣고 해줘야할것같음.
+	//cout << "@" << endl;
 	for (int i = 0; i < count; ++i)
 		if (my_opject[i])
-			my_opject[i]->Render(*renderer);
+			my_opject[i]->Render(*renderer,elapsedTime);
 	
 	Collion();
 }

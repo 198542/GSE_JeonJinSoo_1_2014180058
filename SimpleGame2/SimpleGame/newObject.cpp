@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "newObject.h"
 #include "Renderer.h"
+#include <chrono>
+#include <Windows.h>
 
 Object::Object() :my_pos(0, 0, 0), my_color(1, 1, 1, 1), my_vector(0, 0, 0)
 {
@@ -13,19 +15,24 @@ Object::Object(bool state, float pos_x, float pos_y, float pos_z, float my_size,
 	my_state = state;
 }
 
-void Object::Render(Renderer& g_Renderer)
+void Object::Render(Renderer& g_Renderer, float elapsedTime)
 {
 	if (my_state)
 	{
-		update();
+		update(elapsedTime);
 		g_Renderer.DrawSolidRect(my_pos.x, my_pos.y, my_pos.z, size, my_color.r, my_color.g, my_color.b, my_color.a);
 	}
 }
 
-void Object::update()
+void Object::update(float elapsedTime)//float elapsedTime
 {
+
+	my_elapsedTimeInSecond = elapsedTime;//시간
+
+
 	CollisionCheck();
 	my_pos += my_vector;
+
 }
 
 void Object::SetPosition(float pos_x, float pos_y, float pos_z)
@@ -70,3 +77,10 @@ bool Object::collision(Position p, float size)
 	else
 		return false;
 }
+void Object::ObjectLife()
+{
+	
+	my_life = 100;
+	//여기서 life - time을 해주어서 hp감소를 시켜야함.
+}
+

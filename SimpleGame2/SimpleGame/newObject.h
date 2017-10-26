@@ -36,15 +36,20 @@ public:
 	myvector my_vector;
 	float size;
 	bool my_state;
+	float my_life;
+	float my_lifetime;
+
+	float my_elapsedTimeInSecond;
 	
 
 	Object();
 	Object(bool state, float pos_x, float pos_y, float pos_z, float size, float r, float g, float b, float a, float v_x, float v_y, float v_z);
-	void Render(Renderer& g_Renderer);
+	void Render(Renderer & g_Renderer, float elapsedTime);
+	
 	//상태, 포지션x,y,z 색깔rgba, 백터 xyz
 	
 
-	void update();
+	void update(float elapsedTime);//업데이트함수
 
 	void SetPosition(float pos_x, float pos_y, float pos_z);
 	void SetVector(float v_x, float v_y, float v_z);
@@ -52,6 +57,10 @@ public:
 	void CheckState(bool state);
 	void CollisionCheck();
 	bool collision(Position p, float size);
+
+	void LifeTime();
+	void ObjectLife();
+	
 
 
 
