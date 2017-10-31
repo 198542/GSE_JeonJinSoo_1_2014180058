@@ -58,8 +58,13 @@ public:
 	void CollisionCheck();
 	bool collision(Position p, float size);
 
+<<<<<<< HEAD
 	float GetLifeTime();
 	float GetLife();
+=======
+	void LifeTime();
+	void ObjectLife();
+>>>>>>> 63c415c2a563c0b12046c5ef886f6ecf187b9b50
 	
 
 

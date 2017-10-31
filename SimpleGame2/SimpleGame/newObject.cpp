@@ -29,6 +29,7 @@ void Object::Render(Renderer& g_Renderer, float elapsedTime)
 
 void Object::update(float elapsedTime)//float elapsedTime
 {
+<<<<<<< HEAD
 	//my_vector.x = 200.f*(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 	//my_vector.y = 200.f*(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 	float my_elapsedTimeInSecond = elapsedTime/1000.f;//시간
@@ -58,6 +59,12 @@ void Object::update(float elapsedTime)//float elapsedTime
 	{
 
 	}
+=======
+
+	my_elapsedTimeInSecond = elapsedTime;//시간
+
+
+>>>>>>> 63c415c2a563c0b12046c5ef886f6ecf187b9b50
 	CollisionCheck();
 	my_pos += my_vector;
 
@@ -105,6 +112,7 @@ bool Object::collision(Position p, float size)
 	else
 		return false;
 }
+<<<<<<< HEAD
 float Object::GetLife()
 {
 	
@@ -115,3 +123,12 @@ float Object::GetLifeTime()
 {
 	return my_lifetime;
 }
+=======
+void Object::ObjectLife()
+{
+	
+	my_life = 100;
+	//여기서 life - time을 해주어서 hp감소를 시켜야함.
+}
+
+>>>>>>> 63c415c2a563c0b12046c5ef886f6ecf187b9b50
