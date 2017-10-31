@@ -83,7 +83,7 @@ void Scene::update(Renderer *renderer, float elapsedTime)
 			
 			else
 			{	//my_opject[i]->update(elapsedTime);
-				my_opject[i]->Render(*renderer, elapsedTime);//여기서 터짐 쉬발
+				my_opject[i]->Render(*renderer, elapsedTime);//여기서 터짐
 			}
 		
 	}
