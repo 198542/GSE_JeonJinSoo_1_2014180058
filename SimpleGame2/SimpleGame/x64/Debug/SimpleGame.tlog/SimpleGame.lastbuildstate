@@ -1,6 +1,2 @@
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v141:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=10.0.15063.0
-<<<<<<< HEAD
-Debug|x64|C:\Users\htlll\Desktop\GSE_JeonJinSoo_1_2014180058-master\SimpleGame2\|
-=======
-Debug|x64|C:\Users\user\Downloads\GSE_JeonJinSoo_1_2014180058-master\SimpleGame2\|
->>>>>>> 63c415c2a563c0b12046c5ef886f6ecf187b9b50
+Debug|x64|C:\Users\htlll\Desktop\GSE\GSE_JeonJinSoo_1_2014180058\SimpleGame2\|

@@ -12,10 +12,6 @@ public:
 
 private:
 	Object *my_opject[Max];
-<<<<<<< HEAD
 	int count = 0;
-=======
-	int count;
->>>>>>> 63c415c2a563c0b12046c5ef886f6ecf187b9b50
 	int my_lifetest;
 };

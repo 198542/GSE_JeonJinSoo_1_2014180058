@@ -24,12 +24,8 @@ bool mousecheck = false;
 void RenderScene(void)
 {
 	DWORD currTime = timeGetTime();
-<<<<<<< HEAD
 	DWORD elapsedTime = currTime - g_prevTime; //g_prevTime 를 빼주어야함
 	g_prevTime = currTime;
-=======
-	DWORD elapsedTime = currTime; //g_prevTime 를 빼주어야함
->>>>>>> 63c415c2a563c0b12046c5ef886f6ecf187b9b50
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// Renderer Test
 	//g_Renderer->DrawSolidRect(0, 0, 0, 4, 1, 0, 1, 1);
@@ -112,11 +108,7 @@ int main(int argc, char **argv)
 		
 	}
 
-<<<<<<< HEAD
 	g_prevTime = timeGetTime();
-=======
-
->>>>>>> 63c415c2a563c0b12046c5ef886f6ecf187b9b50
 	glutMainLoop();
 
 	delete g_Renderer;
