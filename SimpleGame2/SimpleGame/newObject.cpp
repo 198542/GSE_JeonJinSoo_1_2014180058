@@ -1,31 +1,66 @@
 #include "stdafx.h"
 #include "newObject.h"
 #include "Renderer.h"
+#include <chrono>
+#include <Windows.h>
 
 Object::Object() :my_pos(0, 0, 0), my_color(1, 1, 1, 1), my_vector(0, 0, 0)
 {
 	my_state = false;
 	size = 10;
+	
 }
 Object::Object(bool state, float pos_x, float pos_y, float pos_z, float my_size, float r, float g, float b, float a, float v_x, float v_y, float v_z) : my_pos(pos_x, pos_y, pos_z), my_color(r, g, b, a), my_vector(v_x, v_y, v_z)
 {
+	my_life = 100.f;
+	my_lifetime = 100000.f;
 	size = my_size;
 	my_state = state;
 }
 
-void Object::Render(Renderer& g_Renderer)
+void Object::Render(Renderer& g_Renderer, float elapsedTime)
 {
 	if (my_state)
 	{
-		update();
+		update(elapsedTime);
 		g_Renderer.DrawSolidRect(my_pos.x, my_pos.y, my_pos.z, size, my_color.r, my_color.g, my_color.b, my_color.a);
 	}
 }
 
-void Object::update()
+void Object::update(float elapsedTime)//float elapsedTime
 {
+	//my_vector.x = 200.f*(((float)std::rand() / (float)RAND_MAX) - 0.5f);
+	//my_vector.y = 200.f*(((float)std::rand() / (float)RAND_MAX) - 0.5f);
+	float my_elapsedTimeInSecond = elapsedTime/1000.f;//시간
+	/*my_pos.x = my_pos.x + my_vector.x*my_elapsedTimeInSecond;
+	my_pos.y = my_pos.y + my_vector.y*my_elapsedTimeInSecond;
+
+	if (my_pos.x > 250)
+		my_vector.x = -my_vector.x;
+	if (my_pos.x < -250)
+		my_vector.x = -my_vector.x;
+
+	if (my_pos.y > 250)
+		my_vector.y = -my_vector.y;
+	if (my_pos.y < -250)
+		my_vector.y = -my_vector.y;
+*/
+	if (my_life > 0.f)
+	{
+		my_life -= 0.5f;
+		//cout << my_life << endl;
+		//cout << elapsedTime << endl;
+		//cout << endl;
+		//cout << my_elapsedTimeInSecond << endl;
+	}
+
+	if (my_life < 0.f)
+	{
+
+	}
 	CollisionCheck();
 	my_pos += my_vector;
+
 }
 
 void Object::SetPosition(float pos_x, float pos_y, float pos_z)
@@ -69,4 +104,14 @@ bool Object::collision(Position p, float size)
 		return true;
 	else
 		return false;
+}
+float Object::GetLife()
+{
+	
+	return my_life;
+	//여기서 life - time을 해주어서 hp감소를 시켜야함.
+}
+float Object::GetLifeTime()
+{
+	return my_lifetime;
 }
