@@ -17,7 +17,6 @@ but WITHOUT ANY WARRANTY.
 #include "Renderer.h"
 
 #include <chrono>
-Renderer *g_Renderer = NULL;
 Scene *g_Scene = NULL;
 DWORD g_prevTime = 0;
 bool mousecheck = false;
@@ -30,9 +29,8 @@ void RenderScene(void)
 	// Renderer Test
 	//g_Renderer->DrawSolidRect(0, 0, 0, 4, 1, 0, 1, 1);
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
-	g_Scene->update(g_Renderer,(float)elapsedTime);
-	//g_Scene->update((float)elapstime));
-	
+	g_Scene->update((float)elapsedTime);
+	g_Scene->Render();
 	glutSwapBuffers();
 	
 	//g_prevTime = currTime;
@@ -90,11 +88,13 @@ int main(int argc, char **argv)
 	}
 
 	// Initialize Renderer
-	g_Renderer = new Renderer(500, 500);
+	//g_Renderer = new Renderer(500, 500);
+	/*
 	if (!g_Renderer->IsInitialized())
 	{
 		std::cout << "Renderer could not be initialized.. \n";
 	}
+	*/
 	g_Scene = new Scene();
 
 	glutDisplayFunc(RenderScene);
@@ -103,15 +103,10 @@ int main(int argc, char **argv)
 	glutMouseFunc(MouseInput);
 	glutSpecialFunc(SpecialKeyInput);
 
-	for (int i = 0; i < 10; ++i)
-	{
-		
-	}
 
 	g_prevTime = timeGetTime();
 	glutMainLoop();
 
-	delete g_Renderer;
 	delete g_Scene;
 	return 0;
 }

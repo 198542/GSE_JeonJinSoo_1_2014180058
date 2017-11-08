@@ -2,47 +2,32 @@
 #include"SceneMgr.h"
 #include<random>
 
-
-Scene::Scene()
-{
-	
-	//private count
-	for (int i = 0; i < Max; ++i)
-	{
-		my_opject[i] = NULL;
-	}
-}
-
 void Scene::addObj(float x, float y, float z, float s)
 {
 	//마우스 클릭마다 호출됨.
 
-		if (count < Max)
+	for (int i = 1; i < Max; ++i)
+	{
+		if (my_opject[i] == nullptr)
 		{
-		//	cout << count << endl;
-		//	cout << Max << endl;
-			my_opject[count] = new Object(true, x, y, z, s, 1, 1, 1, 1, rand() % 4, rand() % 4, 0);
-			//my_opject[count] = addobject;
-			//return i;
+			my_opject[i] = new Object(OBJECT_CHARACTER, x, y, z, CHARACTER_SIZE, 1, 1, 1, 1);
 			count += 1;
+			break;
 		}
-		else if(Max>10)
-		{
-			int newcon = 11;
-			my_opject[newcon] = new Object(true, x, y, z, s, 1, 1, 1, 1, rand() % 4, rand() % 4, 0);
-			newcon += 1;
-		}
-	
-	cout << count << endl;
+	}
+		
 }
 void Scene::Collion()
 {
-	for (int i = 0; i < count; ++i)
+	for (int i = 1; i < Max; ++i)
 	{
-		for (int j = 0; j < count; ++j)
+		if (my_opject[i] == nullptr) continue;
+
+		for (int j = 1; j < Max; ++j)
 		{
-			if (i == j)
-				continue;
+			if (i == j) continue;
+			if (my_opject[j] == nullptr) continue;
+
 			else if (my_opject[i]->collision(my_opject[j]->my_pos, my_opject[j]->size))
 			{
 				my_opject[i]->SetColor(0, 1, 0, 1);
@@ -54,40 +39,37 @@ void Scene::Collion()
 	}
 }
 
-void Scene::update(Renderer *renderer, float elapsedTime)
+void Scene::Render()
 {
-	
-	/*for (int i = 0; i < count; ++i) 
+	for (int i = 0; i < Max; ++i)
 	{
-		if (my_opject[i] != NULL)
-		{
-			my_opject[i]->Render(*renderer, elapsedTime);
-			cout << "hello!" << endl;
-			if (my_opject[i]->my_life < 0.f)
-			{
-				delete my_opject[i];
-				my_opject[i] = NULL;
-			}
-		}
-	}*/
+		if (my_opject[i] != nullptr)
+			my_renderer->DrawSolidRect(my_opject[i]->my_pos.x, my_opject[i]->my_pos.y, my_opject[i]->my_pos.z,
+				my_opject[i]->size, my_opject[i]->my_color.r, 
+				my_opject[i]->my_color.g, my_opject[i]->my_color.b, my_opject[i]->my_color.a);
+	}
+}
 
-	for (int i = 0; i <count; ++i)
+void Scene::update(float elapsedTime)
+{
+
+	for (int i = 0; i <Max; ++i) if (my_opject[i] != nullptr) my_opject[i]->update(elapsedTime);
+	Collion();
+	this->DeleteObject();
+}
+
+void Scene::DeleteObject()
+{
+	for (int i = 0; i < Max; ++i)
 	{
-		
-			
-			if (my_opject[i]->my_life < 0.0001f)
-			{
-				delete my_opject[count];//감소되면 알아서 죽음 으악!
-			}
-			
-			
-			else
-			{	//my_opject[i]->update(elapsedTime);
-				my_opject[i]->Render(*renderer, elapsedTime);//여기서 터짐
-			}
-		
+		if (my_opject[i] == nullptr) continue;
+
+		if (my_opject[i]->my_life < 0.0001f)
+		{
+			count--;
+			delete my_opject[i];//감소되면 알아서 죽음 으악!
+			my_opject[i] = nullptr;
+		}
 	}
 
-
-	Collion();
 }
