@@ -16,6 +16,7 @@ but WITHOUT ANY WARRANTY.
 #include "SceneMgr.h"
 #include "Renderer.h"
 
+
 #include <chrono>
 Scene *g_Scene = NULL;
 DWORD g_prevTime = 0;

@@ -1,9 +1,12 @@
 #pragma once
+
+#include <vector>
+
 class Renderer;
 
 enum OBJECTTYPE { OBJECT_BUILDING, OBJECT_CHARACTER, OBJECT_BULLET, OBJECT_ARROW };
 
-#define CHARACTER_LIFE 10
+#define CHARACTER_LIFE 200
 #define CHARACTER_SPEED 100
 #define CHARACTER_SIZE 10
 
@@ -13,8 +16,11 @@ enum OBJECTTYPE { OBJECT_BUILDING, OBJECT_CHARACTER, OBJECT_BULLET, OBJECT_ARROW
 
 #define BULLET_LIFE 20
 #define BULLET_SPEED 300
-#define BULLET_SIZE 2
+#define BULLET_SIZE 4
 
+#define ARROW_LIFE 10
+#define ARROW_SPEED 100
+#define ARROW_SIZE 4
 
 typedef struct Position
 {
@@ -70,16 +76,23 @@ public:
 	Position my_pos;
 	Color my_color;
 	myvector my_vector;
-	float size;
+	float my_size;
 	bool my_state;
 	float my_life;
 	float my_lifetime;
 
+	int objectId;
+	int ownerId;
+
+	int image;
+
 	float my_elapsedTimeInSecond;
-	
+
+	DWORD my_time;
+
 
 	Object();
-	Object(OBJECTTYPE objtype, float pos_x, float pos_y, float pos_z, float size, float r, float g, float b, float a);
+	Object(int objectId, int ownerId,OBJECTTYPE objtype, float pos_x, float pos_y, float pos_z, float size, int image);
 	
 	//상태, 포지션x,y,z 색깔rgba, 백터 xyz
 	
@@ -92,10 +105,11 @@ public:
 	void CollisionCheck();
 	bool collision(Position p, float size);
 
+	//bool collisionhouse(Position p, float size);
+	
 	float GetLifeTime();
 	float GetLife();
 	
-
-
+	
 
 };

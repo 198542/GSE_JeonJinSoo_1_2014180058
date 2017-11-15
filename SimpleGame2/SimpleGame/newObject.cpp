@@ -7,14 +7,15 @@
 Object::Object() :my_pos(0, 0, 0), my_color(1, 1, 1, 1), my_vector(0, 0, 0)
 {
 	my_state = false;
-	size = 10;
+	my_size = 10;
 	
 }
-Object::Object(OBJECTTYPE objtype, float pos_x, float pos_y, float pos_z, float my_size, float r, float g, float b, float a) : my_pos(pos_x, pos_y, pos_z), my_color(r, g, b, a)
+Object::Object(int objectId, int ownerId, OBJECTTYPE objtype, float pos_x, float pos_y, float pos_z, float size, int image) : my_pos(pos_x, pos_y, pos_z), my_color(0,0,0,1),image(image)
 {
 	my_objtype = objtype;
 	my_lifetime = 100000.f;
-	size = my_size;
+	my_size = size;
+	my_time = GetTickCount();
 	float speed;
 
 	switch (my_objtype)
@@ -22,12 +23,25 @@ Object::Object(OBJECTTYPE objtype, float pos_x, float pos_y, float pos_z, float 
 	case OBJECT_BUILDING:
 		my_life = BUILDING_LIFE;
 		speed = BUILDING_SPEED;
+		my_color=Color(1, 1, 0, 1);
 		break;
 
 	case OBJECT_CHARACTER:
 		my_life = CHARACTER_LIFE;
 		speed = CHARACTER_SPEED;
+		my_color = Color(1, 1, 1, 1);
 		break;
+	case OBJECT_ARROW:
+		my_life = ARROW_LIFE;
+		speed = ARROW_SPEED;
+		my_color = Color(0, 1, 0, 1);
+		break;
+	case OBJECT_BULLET:
+		my_life = BULLET_LIFE;
+		speed = BULLET_SPEED;
+		my_color = Color(1, 0, 0, 1);
+		break;
+		
 	}
 
 	switch (rand() % 8) 
@@ -48,30 +62,12 @@ Object::Object(OBJECTTYPE objtype, float pos_x, float pos_y, float pos_z, float 
 
 void Object::update(float elapsedTime)//float elapsedTime
 {
-	//my_vector.x = 200.f*(((float)std::rand() / (float)RAND_MAX) - 0.5f);
-	//my_vector.y = 200.f*(((float)std::rand() / (float)RAND_MAX) - 0.5f);
-	/*my_pos.x = my_pos.x + my_vector.x*my_elapsedTimeInSecond;
-	my_pos.y = my_pos.y + my_vector.y*my_elapsedTimeInSecond;
-
-	if (my_pos.x > 250)
-		my_vector.x = -my_vector.x;
-	if (my_pos.x < -250)
-		my_vector.x = -my_vector.x;
-
-	if (my_pos.y > 250)
-		my_vector.y = -my_vector.y;
-	if (my_pos.y < -250)
-		my_vector.y = -my_vector.y;
-*/
+	/*
 	if (my_life > 0.f)
 	{
-		//my_life -= 0.5f;
-		//cout << my_life << endl;
-		//cout << elapsedTime << endl;
-		//cout << endl;
-		//cout << my_elapsedTimeInSecond << endl;
+		my_life -= 0.05f;
 	}
-
+	*/
 	CollisionCheck();
 	my_pos = my_pos + my_vector * (elapsedTime / 1000.0f);
 
@@ -97,29 +93,45 @@ void Object::SetColor(float r, float g, float b, float a)
 	my_color.a = a;
 }
 
-void Object::CollisionCheck()
+void Object::CollisionCheck() //맵 충돌체크
 {
-	if ((my_pos.x + (size / 2) >= 500 / 2) || // 오른쪽 검사
-		((my_pos.x - (size / 2) <= 500 / 2 * -1.0f))) // 왼쪽 검사
+	if ((my_pos.x + (my_size / 2) >= 500 / 2) || // 오른쪽 검사
+		((my_pos.x - (my_size / 2) <= 500 / 2 * -1.0f))) // 왼쪽 검사
 		my_vector.x = -my_vector.x;
 
-	if ((my_pos.y + (size / 2) >= 500 / 2) || // 위 검사
-		((my_pos.y - (size / 2) <= 500 / 2 * -1.0f))) // 아래 검사
+	if ((my_pos.y + (my_size / 2) >= 500 / 2) || // 위 검사
+		((my_pos.y - (my_size / 2) <= 500 / 2 * -1.0f))) // 아래 검사
 		my_vector.y = -my_vector.y;
 }
 bool Object::collision(Position p, float size)
 {
-	if (my_pos.x + size / 2 > p.x - size / 2 && my_pos.x - size / 2 < p.x + size / 2
-		&& my_pos.y + size / 2 > p.y - size / 2 && my_pos.y - size / 2 < p.y + size / 2)
+	//객체 서로 충돌체크
+	if (my_pos.x + my_size / 2 > p.x - size / 2 && my_pos.x - my_size / 2 < p.x + size / 2
+		&& my_pos.y + my_size / 2 > p.y - size / 2 && my_pos.y - my_size / 2 < p.y + size / 2)
 		return true;
 	else
 		return false;
 }
+
+//bool Object::collisionhouse(Position pos, float size)
+//{
+//	//빌딩 출동체크 사이즈 구해야함
+//	//캐릭터와 빌딩 충돌
+//	if (my_pos.x + (BUILDING_SIZE / 2) > pos.x - size / 2 && my_pos.x - (BUILDING_SIZE / 2 ) < pos.x + size / 2
+//		&& my_pos.y + (BUILDING_SIZE / 2) > pos.y - size / 2 && my_pos.y - (BUILDING_SIZE / 2) < pos.y + size / 2)
+//		return true;
+//	else
+//		return false;
+//	//사이즈 제대로 충돌안됨
+//
+//}
+
+
 float Object::GetLife()
 {
 	
 	return my_life;
-	//여기서 life - time을 해주어서 hp감소를 시켜야함.
+
 }
 float Object::GetLifeTime()
 {
