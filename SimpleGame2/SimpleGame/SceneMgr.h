@@ -21,7 +21,7 @@ public:
 			std::cout << "Renderer could not be initialized.. \n";
 		}
 
-		buildingpicture = my_renderer->CreatePngTexture(".\\Resource\\castle.png");
+		buildingpicture = my_renderer->CreatePngTexture(".\\Resource\\cube.png");
 		
 		
 		my_opject[0] = new Object(count,-1,OBJECT_BUILDING, 0, 0, 0, BUILDING_SIZE, buildingpicture);
