@@ -10,12 +10,11 @@ Object::Object() :my_pos(0, 0, 0), my_color(1, 1, 1, 1), my_vector(0, 0, 0)
 	my_size = 10;
 	
 }
-Object::Object(int objectId, int ownerId, OBJECTTYPE objtype, float pos_x, float pos_y, float pos_z, float size, int image) : my_pos(pos_x, pos_y, pos_z), my_color(0,0,0,1),image(image)
+Object::Object(OBJECTTYPE objtype, float pos_x, float pos_y, float pos_z, float size, float r, float g, float b, float a) : my_pos(pos_x, pos_y, pos_z), my_color(r, g, b, a)
 {
 	my_objtype = objtype;
 	my_lifetime = 100000.f;
 	my_size = size;
-	my_time = GetTickCount();
 	float speed;
 
 	switch (my_objtype)
@@ -23,23 +22,20 @@ Object::Object(int objectId, int ownerId, OBJECTTYPE objtype, float pos_x, float
 	case OBJECT_BUILDING:
 		my_life = BUILDING_LIFE;
 		speed = BUILDING_SPEED;
-		my_color=Color(1, 1, 0, 1);
 		break;
 
 	case OBJECT_CHARACTER:
 		my_life = CHARACTER_LIFE;
 		speed = CHARACTER_SPEED;
-		my_color = Color(1, 1, 1, 1);
+		my_arrowtime = GetTickCount();
 		break;
 	case OBJECT_ARROW:
 		my_life = ARROW_LIFE;
 		speed = ARROW_SPEED;
-		my_color = Color(0, 1, 0, 1);
 		break;
 	case OBJECT_BULLET:
 		my_life = BULLET_LIFE;
 		speed = BULLET_SPEED;
-		my_color = Color(1, 0, 0, 1);
 		break;
 		
 	}
@@ -58,7 +54,19 @@ Object::Object(int objectId, int ownerId, OBJECTTYPE objtype, float pos_x, float
 
 }
 
+Object Object::CreateArrow()
+{
 
+	if (my_arrowtime + 500 < GetTickCount()) { // 총알을 생성한지 0.5초가 경과 됬으면
+		Object obj(OBJECT_ARROW, my_pos.x, my_pos.y, my_pos.z,
+			ARROW_SIZE, 1.0f, 0.0f, 0.0f, 1.0f); // 건물 위치에 총알 생성
+		my_arrowtime = GetTickCount(); // 현재 시간 다시 저장
+		return obj;
+	}
+	Object obj;
+	obj.my_life = 1.0f;
+	return obj;
+}
 
 void Object::update(float elapsedTime)//float elapsedTime
 {
@@ -113,18 +121,18 @@ bool Object::collision(Position p, float size)
 		return false;
 }
 
-//bool Object::collisionhouse(Position pos, float size)
-//{
-//	//빌딩 출동체크 사이즈 구해야함
-//	//캐릭터와 빌딩 충돌
-//	if (my_pos.x + (BUILDING_SIZE / 2) > pos.x - size / 2 && my_pos.x - (BUILDING_SIZE / 2 ) < pos.x + size / 2
-//		&& my_pos.y + (BUILDING_SIZE / 2) > pos.y - size / 2 && my_pos.y - (BUILDING_SIZE / 2) < pos.y + size / 2)
-//		return true;
-//	else
-//		return false;
-//	//사이즈 제대로 충돌안됨
-//
-//}
+bool Object::collisionhouse(Position pos, float size)
+{
+	//빌딩 출동체크 사이즈 구해야함
+	//캐릭터와 빌딩 충돌
+	if (my_pos.x + (BUILDING_SIZE / 2) > pos.x - size / 2 && my_pos.x - (BUILDING_SIZE / 2 ) < pos.x + size / 2
+		&& my_pos.y + (BUILDING_SIZE / 2) > pos.y - size / 2 && my_pos.y - (BUILDING_SIZE / 2) < pos.y + size / 2)
+		return true;
+	else
+		return false;
+	//사이즈 제대로 충돌안됨
+
+}
 
 
 float Object::GetLife()

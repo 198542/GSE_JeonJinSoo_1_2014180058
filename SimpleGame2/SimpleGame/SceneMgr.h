@@ -21,10 +21,7 @@ public:
 			std::cout << "Renderer could not be initialized.. \n";
 		}
 
-		buildingpicture = my_renderer->CreatePngTexture(".\\Resource\\cube.png");
-		
-		
-		my_opject[0] = new Object(count,-1,OBJECT_BUILDING, 0, 0, 0, BUILDING_SIZE, buildingpicture);
+		my_opject[0] = new Object(OBJECT_BUILDING, 0, 0, 0, BUILDING_SIZE, 1, 1, 0, 1);
 
 
 		count += 1;
@@ -39,17 +36,12 @@ public:
 	void CreateBullet();
 	void DeleteObject();
 
-	void BuildingRender(Renderer& g_Renderer);
-
-	int loadImage(char* path) { return my_renderer->CreatePngTexture(path); }
 private:
 	Object *my_opject[Max];
 	int count = 0;
-
-	int buildingpicture;
-	
 	int my_lifetest;
 	Renderer* my_renderer;
-	std::vector<Object> my_bullet; // 총알을 담을 객체
+	vector<Object> my_bullet; // 총알을 담을 객체
+	vector<Object> my_arrow; // 화살을 담을 객체
 	DWORD my_bulletime; // 총알을 일정 시간 마다 생성하기 위한 시간 변수
 };

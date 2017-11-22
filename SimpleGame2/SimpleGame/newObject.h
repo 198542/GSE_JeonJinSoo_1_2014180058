@@ -6,7 +6,7 @@ class Renderer;
 
 enum OBJECTTYPE { OBJECT_BUILDING, OBJECT_CHARACTER, OBJECT_BULLET, OBJECT_ARROW };
 
-#define CHARACTER_LIFE 200
+#define CHARACTER_LIFE 10
 #define CHARACTER_SPEED 100
 #define CHARACTER_SIZE 10
 
@@ -81,18 +81,11 @@ public:
 	float my_life;
 	float my_lifetime;
 
-	int objectId;
-	int ownerId;
-
-	int image;
-
 	float my_elapsedTimeInSecond;
-
-	DWORD my_time;
-
+	DWORD my_arrowtime;
 
 	Object();
-	Object(int objectId, int ownerId,OBJECTTYPE objtype, float pos_x, float pos_y, float pos_z, float size, int image);
+	Object(OBJECTTYPE objtype, float pos_x, float pos_y, float pos_z, float size, float r, float g, float b, float a);
 	
 	//상태, 포지션x,y,z 색깔rgba, 백터 xyz
 	
@@ -105,11 +98,12 @@ public:
 	void CollisionCheck();
 	bool collision(Position p, float size);
 
-	//bool collisionhouse(Position p, float size);
+	bool collisionhouse(Position p, float size);
 	
 	float GetLifeTime();
 	float GetLife();
-	
-	
+	Object CreateArrow();
+
+
 
 };
