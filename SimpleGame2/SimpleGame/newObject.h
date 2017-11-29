@@ -2,22 +2,35 @@
 
 #include <vector>
 
+
+
 class Renderer;
 
 enum OBJECTTYPE { OBJECT_BUILDING, OBJECT_CHARACTER, OBJECT_BULLET, OBJECT_ARROW };
+enum TEAM{RED, BLUE};
 
-#define CHARACTER_LIFE 10
-#define CHARACTER_SPEED 100
-#define CHARACTER_SIZE 10
+const float LEVEL_GOD = 0;
+const float LEVEL_SKY = 0.1f;
+const float LEVEL_GROUND = 0.2f;
+const float LEVEL_UNDERGROUND = 0.3f;
+
+#define RED_CHARACTER_TIME 5000
+#define BLUE_CHARACTER_TIME 7000
+
+#define CHARACTER_LIFE 100
+#define CHARACTER_SPEED 300
+#define CHARACTER_SIZE 30
 
 #define BUILDING_LIFE 500
 #define BUILDING_SPEED 0
-#define BUILDING_SIZE 50
+#define BUILDING_SIZE 100
 
-#define BULLET_LIFE 20
-#define BULLET_SPEED 300
+#define BULLET_TIME 5000
+#define BULLET_LIFE 15
+#define BULLET_SPEED 600
 #define BULLET_SIZE 4
 
+#define ARROW_TIME 3000
 #define ARROW_LIFE 10
 #define ARROW_SPEED 100
 #define ARROW_SIZE 4
@@ -62,6 +75,10 @@ typedef struct Position
 struct Color
 {
 	float r, g, b, a;
+	Color()
+	{
+		r = 0, g = 0, b = 0, a = 1.0;
+	}
 	Color(float red, float green, float blue, float alpha)
 	{
 		r = red, g = green, b = blue, a = alpha;
@@ -83,9 +100,11 @@ public:
 
 	float my_elapsedTimeInSecond;
 	DWORD my_arrowtime;
+	TEAM my_team;
+	DWORD my_bulletime; // 총알을 일정 시간 마다 생성하기 위한 시간 변수
 
 	Object();
-	Object(OBJECTTYPE objtype, float pos_x, float pos_y, float pos_z, float size, float r, float g, float b, float a);
+	Object(TEAM team, OBJECTTYPE objtype, float pos_x, float pos_y, float pos_z, float size, float r, float g, float b, float a);
 	
 	//상태, 포지션x,y,z 색깔rgba, 백터 xyz
 	
@@ -103,6 +122,7 @@ public:
 	float GetLifeTime();
 	float GetLife();
 	Object CreateArrow();
+	Object CreateBullet();
 
 
 

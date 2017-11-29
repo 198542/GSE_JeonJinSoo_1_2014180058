@@ -15,8 +15,6 @@ but WITHOUT ANY WARRANTY.
 #include "newObject.h"
 #include "SceneMgr.h"
 #include "Renderer.h"
-
-
 #include <chrono>
 Scene *g_Scene = NULL;
 DWORD g_prevTime = 0;
@@ -29,7 +27,7 @@ void RenderScene(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// Renderer Test
 	//g_Renderer->DrawSolidRect(0, 0, 0, 4, 1, 0, 1, 1);
-	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	g_Scene->update((float)elapsedTime);
 	g_Scene->Render();
 	glutSwapBuffers();
@@ -51,7 +49,8 @@ void MouseInput(int button, int state, int x, int y)
 	{
 		if (mousecheck)
 		{
-			g_Scene->addObj(x - 250, 250 - y, 0, 20);
+			if (400 - y > 0) return;
+			g_Scene->addObj(BLUE, x - 250, 400 - y, 0, 20);
 		}
 	}
 	RenderScene();
@@ -74,7 +73,7 @@ int main(int argc, char **argv)
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(0, 0); //창이 틀어지는 위치 조정
-	glutInitWindowSize(500, 500); //창 사이즈
+	glutInitWindowSize(500, 800); //창 사이즈
 	glutCreateWindow("Game Software Engineering KPU");
 
 	glewInit();
