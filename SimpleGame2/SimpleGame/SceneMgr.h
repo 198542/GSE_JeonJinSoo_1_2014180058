@@ -33,7 +33,10 @@ public:
 
 		count += 1;
 		my_buildingImg[0] = my_renderer->CreatePngTexture("Resource\\cube.png");
-
+		my_backImg = my_renderer->CreatePngTexture("Resource\\BackGround.png");
+		my_bulletParticle = my_renderer->CreatePngTexture("Resource\\cube.png");
+		my_characterImg[RED] = my_renderer->CreatePngTexture("Resource\\RedCharacter.png");
+		my_characterImg[BLUE] = my_renderer->CreatePngTexture("Resource\\BlueCharacter.png");
 		my_redCharacterTime = GetTickCount();
 		my_blueCharacterTime = 0;
 		
@@ -53,6 +56,9 @@ private:
 	vector<Object> my_bullet; // √—æÀ¿ª ¥„¿ª ∞¥√º
 	vector<Object> my_arrow; // »≠ªÏ¿ª ¥„¿ª ∞¥√º
 	int my_buildingImg[2];
+	int my_backImg;
+	int my_bulletParticle;
+	int my_characterImg[2];
 	DWORD my_redCharacterTime;
 	DWORD my_blueCharacterTime;
 };

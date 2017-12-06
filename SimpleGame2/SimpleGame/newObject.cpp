@@ -17,6 +17,7 @@ Object::Object(TEAM team, OBJECTTYPE objtype, float pos_x, float pos_y, float po
 	my_size = size;
 	float speed;
 	my_team = team;
+	my_row = 0;
 	switch (my_objtype)
 	{
 	case OBJECT_BUILDING:
@@ -41,18 +42,31 @@ Object::Object(TEAM team, OBJECTTYPE objtype, float pos_x, float pos_y, float po
 		
 	}
 
-	switch (rand() % 8) 
+	if (my_objtype == OBJECT_CHARACTER)
 	{
-	case 0: my_vector.x = speed; break;
-	case 1: my_vector.x = -speed; break;
-	case 2: my_vector.y = speed; break;
-	case 3: my_vector.y = -speed; break;
-	case 4: my_vector.x = speed; my_vector.y = speed; break;
-	case 5: my_vector.x = speed; my_vector.y = -speed; break;
-	case 6: my_vector.x = -speed; my_vector.y = speed; break;
-	case 7: my_vector.x = -speed; my_vector.y = -speed; break;
+		switch (rand() % 4)
+		{
+		case 0: my_vector.x = speed; my_col = 3; break;
+		case 1: my_vector.x = -speed; my_col = 2; break;
+		case 2: my_vector.y = speed; my_col = 1; break;
+		case 3: my_vector.y = -speed; my_col = 0; break;
+		}
 	}
 
+	else {
+		switch (rand() % 8)
+		{
+		case 0: my_vector.x = speed; break;
+		case 1: my_vector.x = -speed; break;
+		case 2: my_vector.y = speed; break;
+		case 3: my_vector.y = -speed; break;
+		case 4: my_vector.x = speed; my_vector.y = speed; break;
+		case 5: my_vector.x = speed; my_vector.y = -speed; break;
+		case 6: my_vector.x = -speed; my_vector.y = speed; break;
+		case 7: my_vector.x = -speed; my_vector.y = -speed; break;
+		}
+
+	}
 }
 
 Object Object::CreateArrow()
@@ -141,6 +155,31 @@ void Object::CollisionCheck() //맵 충돌체크
 	if ((my_pos.y + (my_size / 2) >= 800 / 2) || // 위 검사
 		((my_pos.y - (my_size / 2) <= 800 / 2 * -1.0f))) // 아래 검사
 		my_vector.y = -my_vector.y;
+
+	
+	if (my_objtype == OBJECT_CHARACTER)
+	{
+		if (my_vector.x > 0)
+		{
+			my_col = 3;
+		}
+		else if(my_vector.x < 0)
+		{
+			my_col = 2;
+		}
+		else if (my_vector.y > 0)
+		{
+			my_col = 1;
+		}
+		else if (my_vector.y < 0)
+		{
+			my_col = 0;
+		}
+
+		my_row = (my_row + 1) % 6;
+	}
+
+
 }
 bool Object::collision(Position p, float size)
 {

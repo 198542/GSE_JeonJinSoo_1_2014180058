@@ -105,10 +105,18 @@ void Scene::Render() //그리기
 			}
 			else if (my_opject[j][i] != nullptr && my_opject[j][i]->my_objtype != OBJECT_BUILDING)
 			{
-				my_renderer->DrawSolidRect(my_opject[j][i]->my_pos.x, my_opject[j][i]->my_pos.y, my_opject[j][i]->my_pos.z,
-					my_opject[j][i]->my_size, my_opject[j][i]->my_color.r,
-					my_opject[j][i]->my_color.g, my_opject[j][i]->my_color.b, my_opject[j][i]->my_color.a, LEVEL_GROUND);
-			
+				if (my_opject[j][i]->my_team == RED)
+				{
+					my_renderer->DrawTexturedRectSeq(my_opject[j][i]->my_pos.x, my_opject[j][i]->my_pos.y, my_opject[j][i]->my_pos.z,
+						my_opject[j][i]->my_size, my_opject[j][i]->my_color.r, my_opject[j][i]->my_color.g, my_opject[j][i]->my_color.b, my_opject[j][i]->my_color.a,
+						my_characterImg[RED], my_opject[j][i]->my_row, my_opject[j][i]->my_col, 6, 4, LEVEL_GROUND);
+				}
+				else
+				{
+					my_renderer->DrawTexturedRectSeq(my_opject[j][i]->my_pos.x, my_opject[j][i]->my_pos.y, my_opject[j][i]->my_pos.z,
+						my_opject[j][i]->my_size, my_opject[j][i]->my_color.r, my_opject[j][i]->my_color.g, my_opject[j][i]->my_color.b, my_opject[j][i]->my_color.a,
+						my_characterImg[BLUE], my_opject[j][i]->my_row, my_opject[j][i]->my_col, 6, 4, LEVEL_GROUND);
+				}
 				my_renderer->DrawSolidRectGauge(my_opject[j][i]->my_pos.x, my_opject[j][i]->my_pos.y + my_opject[j][i]->my_size, my_opject[j][i]->my_pos.z,
 					my_opject[j][i]->my_size, my_opject[j][i]->my_size / 2.0f, my_opject[j][i]->my_color.r, my_opject[j][i]->my_color.g, my_opject[j][i]->my_color.b,
 					my_opject[j][i]->my_color.a, my_opject[j][i]->my_life / CHARACTER_LIFE, LEVEL_GOD);
@@ -120,6 +128,12 @@ void Scene::Render() //그리기
 		my_renderer->DrawSolidRect(d.my_pos.x, d.my_pos.y, d.my_pos.z,
 			d.my_size, d.my_color.r,
 			d.my_color.g, d.my_color.b, d.my_color.a, LEVEL_UNDERGROUND);
+		
+		// 파티클 그림
+		my_renderer->DrawParticle(d.my_pos.x, d.my_pos.y, d.my_pos.z,
+			d.my_size, d.my_color.r,
+			d.my_color.g, d.my_color.b, d.my_color.a, 0, 0, my_bulletParticle, 1000);
+			
 	}
 
 	// 화살 그림
@@ -128,6 +142,11 @@ void Scene::Render() //그리기
 			d.my_size, d.my_color.r,
 			d.my_color.g, d.my_color.b, d.my_color.a, LEVEL_UNDERGROUND);
 	}
+
+	// 배경 그림
+
+	my_renderer->DrawTexturedRect(0.0f,0.0f,0.0f, 800, 1.0f,1.0f,1.0f,0.5f,my_backImg, LEVEL_UNDERGROUND);
+	
 }
 
 

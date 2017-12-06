@@ -102,7 +102,7 @@ public:
 	DWORD my_arrowtime;
 	TEAM my_team;
 	DWORD my_bulletime; // 총알을 일정 시간 마다 생성하기 위한 시간 변수
-
+	int	my_col, my_row;
 	Object();
 	Object(TEAM team, OBJECTTYPE objtype, float pos_x, float pos_y, float pos_z, float size, float r, float g, float b, float a);
 	
