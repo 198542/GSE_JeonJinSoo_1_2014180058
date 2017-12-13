@@ -146,7 +146,13 @@ void Scene::Render() //그리기
 	// 배경 그림
 
 	my_renderer->DrawTexturedRect(0.0f,0.0f,0.0f, 800, 1.0f,1.0f,1.0f,0.5f,my_backImg, LEVEL_UNDERGROUND);
-	
+	my_renderer->DrawText(150, 300, GLUT_BITMAP_9_BY_15, 1, 1, 1, "Red King");
+	my_renderer->DrawText(-10, 300, GLUT_BITMAP_9_BY_15, 1, 1, 1, "Red King");
+	my_renderer->DrawText(-160, 300, GLUT_BITMAP_9_BY_15, 1, 1, 1, "Red King");
+
+	my_renderer->DrawText(150, -310, GLUT_BITMAP_9_BY_15, 1, 1, 1, "Blue King");
+	my_renderer->DrawText(-10, -310, GLUT_BITMAP_9_BY_15, 1, 1, 1, "Blue King");
+	my_renderer->DrawText(-160, -310, GLUT_BITMAP_9_BY_15, 1, 1, 1, "Blue King");
 }
 
 

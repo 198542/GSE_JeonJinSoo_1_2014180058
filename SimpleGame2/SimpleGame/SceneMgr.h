@@ -22,13 +22,13 @@ public:
 			std::cout << "Renderer could not be initialized.. \n";
 		}
 
-		my_opject[RED][0] = new Object(RED, OBJECT_BUILDING, -500 / 4, 500 / 4, 0, BUILDING_SIZE, 1, 0, 0, 1);
-		my_opject[RED][1] = new Object(RED, OBJECT_BUILDING, -500 / 4 + BUILDING_SIZE * 1.5, 500 / 4, 0, BUILDING_SIZE, 1, 0, 0, 1);
-		my_opject[RED][2] = new Object(RED, OBJECT_BUILDING, 250 - BUILDING_SIZE, 500 / 4, 0, BUILDING_SIZE, 1, 0, 0, 1);
+		my_opject[RED][0] = new Object(RED, OBJECT_BUILDING, -500 / 4, 500 / 2, 0, BUILDING_SIZE, 1, 0, 0, 1);
+		my_opject[RED][1] = new Object(RED, OBJECT_BUILDING, -500 / 4 + BUILDING_SIZE * 1.5, 500 / 2, 0, BUILDING_SIZE, 1, 0, 0, 1);
+		my_opject[RED][2] = new Object(RED, OBJECT_BUILDING, 280 - BUILDING_SIZE, 500 / 2, 0, BUILDING_SIZE, 1, 0, 0, 1);
 
-		my_opject[BLUE][0] = new Object(BLUE, OBJECT_BUILDING, -500 / 4, -500 / 4, 0, BUILDING_SIZE, 0, 0, 1, 1);
-		my_opject[BLUE][1] = new Object(BLUE, OBJECT_BUILDING, -500 / 4 + BUILDING_SIZE * 1.5, -500 / 4, 0, BUILDING_SIZE, 0, 0, 1, 1);
-		my_opject[BLUE][2] = new Object(BLUE, OBJECT_BUILDING, 250 - BUILDING_SIZE, -500 / 4, 0, BUILDING_SIZE, 0, 0, 1, 1);
+		my_opject[BLUE][0] = new Object(BLUE, OBJECT_BUILDING, -500 / 4, -500 / 2, 0, BUILDING_SIZE, 0, 0, 1, 1);
+		my_opject[BLUE][1] = new Object(BLUE, OBJECT_BUILDING, -500 / 4 + BUILDING_SIZE * 1.5, -500 / 2, 0, BUILDING_SIZE, 0, 0, 1, 1);
+		my_opject[BLUE][2] = new Object(BLUE, OBJECT_BUILDING, 280 - BUILDING_SIZE, -500 / 2, 0, BUILDING_SIZE, 0, 0, 1, 1);
 
 
 		count += 1;
