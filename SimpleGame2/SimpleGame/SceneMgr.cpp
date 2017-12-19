@@ -130,10 +130,14 @@ void Scene::Render() //그리기
 			d.my_color.g, d.my_color.b, d.my_color.a, LEVEL_UNDERGROUND);
 		
 		// 파티클 그림
-		my_renderer->DrawParticle(d.my_pos.x, d.my_pos.y, d.my_pos.z,
-			d.my_size, d.my_color.r,
-			d.my_color.g, d.my_color.b, d.my_color.a, 0, 0, my_bulletParticle, 1000);
+		/*my_renderer->DrawParticle(d.my_pos.x, d.my_pos.y, d.my_pos.z,
+			d.my_size, d.my_color.r, d.my_color.g, d.my_color.b, d.my_color.a,
+			0, 0, my_bulletParticle, 1000,0.1);*/
 			
+		my_renderer->DrawParticle(d.my_pos.x, d.my_pos.y, d.my_pos.z, 10, 1, 1, 1, 1, -d.my_vector.x / 400, -d.my_vector.y/400, my_bulletParticle, sex, 0.05);
+		// 0에서 시작해서 꼬리부분이 나오지않았다가 나와야함.
+		
+		
 	}
 
 	// 화살 그림
@@ -144,7 +148,7 @@ void Scene::Render() //그리기
 	}
 
 	// 배경 그림
-
+	my_renderer->DrawParticleClimate(0, 0, 0, 1, 1, 1, 1, 1, -1, -1, my_snowParticle, sex, 0.01);
 	my_renderer->DrawTexturedRect(0.0f,0.0f,0.0f, 800, 1.0f,1.0f,1.0f,0.5f,my_backImg, LEVEL_UNDERGROUND);
 	my_renderer->DrawText(150, 300, GLUT_BITMAP_9_BY_15, 1, 1, 1, "Red King");
 	my_renderer->DrawText(-10, 300, GLUT_BITMAP_9_BY_15, 1, 1, 1, "Red King");
@@ -161,6 +165,8 @@ void Scene::update(float elapsedTime)
 {
 
 	Collion();
+	sex = 0;
+	sex = sex + elapsedTime/1000;
 	if (my_redCharacterTime + RED_CHARACTER_TIME < GetTickCount())
 	{
 		Position pos;

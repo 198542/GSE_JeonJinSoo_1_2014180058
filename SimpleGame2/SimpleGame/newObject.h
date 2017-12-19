@@ -27,7 +27,7 @@ const float LEVEL_UNDERGROUND = 0.3f;
 
 #define BULLET_TIME 5000
 #define BULLET_LIFE 15
-#define BULLET_SPEED 600
+#define BULLET_SPEED 200
 #define BULLET_SIZE 4
 
 #define ARROW_TIME 3000

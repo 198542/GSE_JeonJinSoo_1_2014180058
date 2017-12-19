@@ -8,8 +8,11 @@ class Scene
 {
 public:
 	void InitRenderer() { my_renderer = new Renderer(500, 800); }
+	
 	Scene()
 	{
+		sex = 0;
+
 		for (int i = 0; i < 2; ++i)
 		{
 			for (int j = 0; j < Max; ++j)
@@ -34,7 +37,9 @@ public:
 		count += 1;
 		my_buildingImg[0] = my_renderer->CreatePngTexture("Resource\\cube.png");
 		my_backImg = my_renderer->CreatePngTexture("Resource\\BackGround.png");
-		my_bulletParticle = my_renderer->CreatePngTexture("Resource\\cube.png");
+
+		my_bulletParticle = my_renderer->CreatePngTexture("Resource\\D.png");
+		my_snowParticle = my_renderer->CreatePngTexture("Resource\\zzzz.png");
 		my_characterImg[RED] = my_renderer->CreatePngTexture("Resource\\RedCharacter.png");
 		my_characterImg[BLUE] = my_renderer->CreatePngTexture("Resource\\BlueCharacter.png");
 		my_redCharacterTime = GetTickCount();
@@ -58,7 +63,10 @@ private:
 	int my_buildingImg[2];
 	int my_backImg;
 	int my_bulletParticle;
+	int my_snowParticle;
 	int my_characterImg[2];
+
+	float sex;
 	DWORD my_redCharacterTime;
 	DWORD my_blueCharacterTime;
 };
